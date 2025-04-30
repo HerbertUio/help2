@@ -10,11 +10,11 @@ namespace Help.Desk.Infrastructure.Database.EntityFramework.Repositories;
 public class DepartmentRepository: IDepartmentRepository
 {
     private readonly HelpDeskDbContext _context;
-    private readonly DbSet<DepartmentDto> _departments;
+    private readonly DbSet<DepartmentEntity> _departments;
     public DepartmentRepository(HelpDeskDbContext context)
     {
         _context = context;
-        _departments = context.Set<DepartmentDto>();
+        _departments = context.Set<DepartmentEntity>();
     }
     public async Task<DepartmentDto> CreateAsync(DepartmentDto entity)
     {

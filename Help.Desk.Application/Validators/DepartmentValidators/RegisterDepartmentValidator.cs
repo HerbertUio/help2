@@ -3,7 +3,7 @@ using Help.Desk.Domain.Dtos.DepartmentDtos;
 
 namespace Help.Desk.Application.Validators.DepartmentValidators;
 
-public class RegisterDepartmentValidator : AbstractValidator<DepartmentDto>
+public class RegisterDepartmentValidator : AbstractValidator<RegisterDepartmentDto>
 {
     public RegisterDepartmentValidator()
     {

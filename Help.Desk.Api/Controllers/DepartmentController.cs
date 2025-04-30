@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Help.Desk.Api.Controllers;
 [ApiController]
-[Route("api/department/[controller]")]
+[Route("api/[controller]")]
 public class DepartmentController: ControllerBase
 {
     private readonly ILogger<DepartmentController> _logger;
