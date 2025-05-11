@@ -1,4 +1,5 @@
 using System.Net;
+using Help.Desk.Domain.Dtos.SupportGroupDtos;
 
 namespace Help.Desk.Domain.Responses;
 
@@ -62,6 +63,8 @@ public class Result<T>
     {
         return new Result<T>(default, false, code, message, new List<string> { error });
     }
+
+    
 }
 
 public static class Result
