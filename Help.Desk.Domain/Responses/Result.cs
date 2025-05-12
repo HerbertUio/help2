@@ -1,5 +1,5 @@
 using System.Net;
-using Help.Desk.Domain.Dtos.SupportGroupDtos;
+using Help.Desk.Domain.Dtos;
 
 namespace Help.Desk.Domain.Responses;
 
