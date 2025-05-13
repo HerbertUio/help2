@@ -3,8 +3,7 @@ namespace Help.Desk.Domain.Dtos.TicketDtos;
 public class TicketDto
 {
     public int Id { get; set; }
-    public string VisibleTicketNumber { get; set; } // Ejemplo: "BOA-12345"
-    public string Tittle { get; set; } // Asunto del ticket
+    public string Title { get; set; } // Asunto del ticket
     public string Description { get; set; }
     public string? DescriptionHtml { get; set; }
     public DateTime? Created { get; set; }
