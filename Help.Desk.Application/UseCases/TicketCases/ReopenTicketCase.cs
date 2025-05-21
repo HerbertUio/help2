@@ -1,6 +1,6 @@
 namespace Help.Desk.Application.UseCases.TicketCases;
 
-public class UpdateTicketCase
+public class ReopenTicketCase
 {
     
 }

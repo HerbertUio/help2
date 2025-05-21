@@ -6,17 +6,20 @@ namespace Help.Desk.Domain.IRepositories;
 public interface ITicketRepository: IGenericRepository<TicketDto>
 {
     //TODO: VERIFICAR  LOS CASOS DE USO DE UN TICKET
-    Task<IList<TicketDto>> GetMergedTicketsAsync(int ticketId);
+    Task<TicketDto> ChangeStatusAsync(int ticketId, int statusId);
+    Task<TicketDto> ChangePriorityAsync(int ticketId, int priorityId);
     Task<TicketDto> MergeTicketsAsync(int ticketId, int ticketIdToMerge);
     Task<TicketDto> UnmergeTicketsAsync(int ticketId, int ticketIdToUnmerge);
-    Task<bool> ReopenTicketAsync(int ticketId);
     Task<bool> CloseTicketAsync(int ticketId);
+    Task<bool> ReopenTicketAsync(int ticketId);
+    
+    /*Task<IList<TicketDto>> GetMergedTicketsAsync(int ticketId);
     Task<bool> ReassignTicketAsync(int ticketId, int newAssignedAgentId);
     Task<bool> ReassignTicketToGroupAsync(int ticketId, int newAssignedGroupId);
     Task<bool> ChangeTicketStatusAsync(int ticketId, int newStatusId);
     Task<bool> ChangeTicketPriorityAsync(int ticketId, int newPriorityId);
     Task<bool> ChangeTicketTypeAsync(int ticketId, int newTypeTicketId);
-    
+    */
     /*
     Task<IEnumerable<TicketDto>> GetTicketsByRequesterIdAsync(int requesterId);
     Task<IEnumerable<TicketDto>> GetTicketsByAssignedAgentIdAsync(int assignedAgentId);
