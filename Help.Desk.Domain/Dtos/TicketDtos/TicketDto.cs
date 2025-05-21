@@ -31,6 +31,7 @@ public class TicketDto
         int? areaId, int? typeTicketId)
     {
         // Antes de retornar el ticket, se podria disparar algun evento de dominio
+        // deberiamos de disparar el evento que una vez creado el ticket este assigne este ticket a algun agente que este disponible
         return new TicketDto
         {
             Title = title,
@@ -76,6 +77,53 @@ public class TicketDto
         SubjectId = subjectId;
         LastUpdate = DateTime.Now;
         return hasChanged;
+    }
+
+    public void ChangePriority(Priority newPriority)
+    {
+        if (Status == Status.Cerrado) return;
+        if (newPriority == null) return;
+        if (Priority == newPriority) return;
+        
+        var previousPriority = Priority;
+        Priority = newPriority;
+        LastUpdate = DateTime.Now;
+        // Disparar algun evento
+    }
+
+    public void ChangeStatus(Status newStatus)
+    {
+        if (Status == Status.Cerrado && newStatus != Status.Reabierto) return;
+        if (newStatus == null) return;
+        if (newStatus == Status) return;
+        
+        var previousStatus = Status;
+        Status = newStatus;
+        LastUpdate = DateTime.Now;
+        
+        if (newStatus == Status.Resuelto)
+        {
+            ResolutionDate = DateTime.Now;
+            ClosedDate = null;
+        }
+        else if (newStatus == Status.Cerrado)
+        {
+            if (ResolutionDate == null) 
+                ResolutionDate = DateTime.Now;
+            
+            ClosedDate = DateTime.Now;
+        }
+        else if (newStatus == Status.Reabierto)
+        {
+            ResolutionDate = null;
+            ClosedDate = null;
+        }
+        else if (newStatus == Status.Pendiente)
+        {
+            ResolutionDate = null;
+            ClosedDate = null;
+        }
+           // Disparar algun evento
     }
     
 }

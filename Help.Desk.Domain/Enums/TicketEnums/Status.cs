@@ -6,6 +6,5 @@ public enum Status
     Cerrado,
     Reabierto,
     Resuelto,
-    Pendiente,
-    Combinado
+    Pendiente
 }
