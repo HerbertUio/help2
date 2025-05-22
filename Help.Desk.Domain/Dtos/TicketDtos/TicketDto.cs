@@ -18,8 +18,8 @@ public class TicketDto
     public int? PrimaryTicketId { get; set; }
     public int? ParentTicketId { get; set; }
     public int? RequesterId { get; set; } //Solicitante
-    public int? AssignedAgentId { get; set; } //Agente asignado
-    public int? AssignedGroupId { get; set; } //Grupo asignado
+    public int? AssignedAgentId { get; set; } 
+    public int? AssignedGroupId { get; set; } 
     public int? TypeTicketId { get; set; }
     public int? SourceOriginId { get; set; } //Origen del ticket
     public int? OfficeId { get; set; }
@@ -125,5 +125,110 @@ public class TicketDto
         }
            // Disparar algun evento
     }
-    
+
+    public void Resolve()
+    {
+        if (Status == Status.Cerrado) return;
+        if (Status == Status.Resuelto) return;
+        var previousStatus = Status;
+        Status = Status.Resuelto;
+        ResolutionDate = DateTime.Now;
+        ClosedDate = null;
+        LastUpdate = DateTime.Now;
+        // Disparar algun evento
+    }
+    public void Close()
+    {
+        if (Status == Status.Cerrado) return;
+        if (Status == Status.Resuelto) return;
+        var previousStatus = Status;
+        Status = Status.Cerrado;
+        ClosedDate = DateTime.Now;
+        if (ResolutionDate == null) ResolutionDate = DateTime.Now;
+        LastUpdate = DateTime.Now;
+        // Disparar algun evento
+    }
+    public void Reopen()
+    {
+        if (Status != Status.Cerrado && Status != Status.Resuelto) return;
+        var previousStatus = Status;
+        Status = Status.Reabierto; 
+        ResolutionDate = null;
+        ClosedDate = null;
+        LastUpdate = DateTime.Now;
+        // Disparar algun evento
+    }
+    public bool AssignToAgent (int agentId)
+    {
+        if (AssignedAgentId == agentId) return false;
+        if (Status == Status.Cerrado) return false;
+        AssignedAgentId = agentId;
+        LastUpdate = DateTime.Now;
+        // Disparar algun evento
+        return true;
+    }
+
+    public bool UnassignFromAgent(int agentId)
+    {
+        if (AssignedAgentId != agentId) return false;
+        if (Status == Status.Cerrado) return false;
+        AssignedAgentId = null;
+        LastUpdate = DateTime.Now;
+        // Disparar algun evento
+        return true;
+    }
+    public bool AssignToGroup(int groupId)
+    {
+        if (AssignedGroupId == groupId) return false;
+        if (Status == Status.Cerrado) return false;
+        AssignedGroupId = groupId;
+        LastUpdate = DateTime.Now;
+        // Disparar algun evento
+        return true;
+    }
+    public bool UnassignFromGroup(int groupId)
+    {
+        if (AssignedGroupId != groupId) return false;
+        if (Status == Status.Cerrado) return false;
+        AssignedGroupId = null;
+        LastUpdate = DateTime.Now;
+        // Disparar algun evento
+        return true;
+    }
+    public bool SetParentTicket(int parentTicketId)
+    {
+        if (ParentTicketId == parentTicketId) return false;
+        if (Status == Status.Cerrado) return false;
+        ParentTicketId = parentTicketId;
+        LastUpdate = DateTime.Now;
+        // Disparar algun evento
+        return true;
+    }
+    public bool UnsetParentTicket()
+    {
+        if (ParentTicketId == null) return false;
+        if (Status == Status.Cerrado) return false;
+        ParentTicketId = null;
+        LastUpdate = DateTime.Now;
+        // Disparar algun evento
+        return true;
+    }
+    public bool SetPrimaryTicket(int primaryTicketId)
+    {
+        if (PrimaryTicketId == primaryTicketId) return false;
+        if (Status == Status.Cerrado) return false;
+        PrimaryTicketId = primaryTicketId;
+        LastUpdate = DateTime.Now;
+        // Disparar algun evento
+        return true;
+    }
+    public bool UnsetPrimaryTicket()
+    {
+        if (PrimaryTicketId == null) return false;
+        if (Status == Status.Cerrado) return false;
+        PrimaryTicketId = null;
+        LastUpdate = DateTime.Now;
+        // Disparar algun evento
+        return true;
+    }
 }
