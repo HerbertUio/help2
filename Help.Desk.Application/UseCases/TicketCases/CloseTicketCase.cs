@@ -21,7 +21,7 @@ public class CloseTicketCase
                 "Error al cerrar ticket."
             );
         }
-        existingTicket.Close();
+        
         var success = await _ticketRepository.CloseTicketAsync(ticketId);
 
         if (!success)

@@ -20,7 +20,7 @@ public class ReopenTicketCase
                 "Error al reabrir ticket."
             );
         }
-        existingTicket.Reopen();
+        
         var success = await _ticketRepository.ReopenTicketAsync(ticketId);
 
         if (!success)
