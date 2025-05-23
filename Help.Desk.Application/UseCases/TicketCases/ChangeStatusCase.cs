@@ -53,6 +53,4 @@ public class ChangeStatusCase
         }
         return Result<TicketDto>.Success(updatedTicket, "Estado del ticket cambiado exitosamente.");
     }
-    
-    
 }

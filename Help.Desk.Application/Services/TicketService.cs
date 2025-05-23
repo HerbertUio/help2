@@ -13,6 +13,10 @@ public class TicketService
     private readonly GetAllTicketsCase _getAllTicketsCase;
     private readonly ChangeStatusCase _changeStatusCase;
     private readonly ChangePriorityCase _changePriorityCase;
+    private readonly MergeTicketsCase _mergeTicketsCase;
+    private readonly UnmergeTicketCase _unmergeTicketCase;
+    private readonly CloseTicketCase _closeTicketCase;
+    private readonly ReopenTicketCase _reopenTicketCase;
     
     public TicketService(
         CreateTicketCase createTicketCase,
@@ -21,7 +25,11 @@ public class TicketService
         GetByIdTicketCase getByIdTicketCase,
         GetAllTicketsCase getAllTicketsCase,
         ChangeStatusCase changeStatusCase,
-        ChangePriorityCase changePriorityCase
+        ChangePriorityCase changePriorityCase,
+        MergeTicketsCase mergeTicketsCase,
+        UnmergeTicketCase unmergeTicketCase,
+        CloseTicketCase closeTicketCase,
+        ReopenTicketCase reopenTicketCase
     )
     {
         _createTicketCase = createTicketCase;
@@ -31,6 +39,10 @@ public class TicketService
         _getAllTicketsCase = getAllTicketsCase;
         _changeStatusCase = changeStatusCase;
         _changePriorityCase = changePriorityCase;
+        _mergeTicketsCase = mergeTicketsCase;
+        _unmergeTicketCase = unmergeTicketCase;
+        _closeTicketCase = closeTicketCase;
+        _reopenTicketCase = reopenTicketCase;
     }
     public async Task<Result<TicketDto>> CreateAsync(CreateTicketDto createTicketDto)
     {
@@ -70,6 +82,26 @@ public class TicketService
     public async Task<Result<TicketDto>> ChangePriorityAsync(int id, ChangePriorityDto dto)
     {
         var result = await _changePriorityCase.ExecuteAsync(id, dto);
+        return result;
+    }
+    public async Task<Result<TicketDto>> MergeTicketsAsync(MergeTicketsDto dto)
+    {
+        var result = await _mergeTicketsCase.ExecuteAsync(dto);
+        return result;
+    }
+    public async Task<Result<TicketDto>> UnmergeTicketAsync(UnmergeTicketDto dto)
+    {
+        var result = await _unmergeTicketCase.ExecuteAsync(dto);
+        return result;
+    }
+    public async Task<Result<bool>> CloseTicketAsync(int id)
+    {
+        var result = await _closeTicketCase.ExecuteAsync(id);
+        return result;
+    }
+    public async Task<Result<bool>> ReopenTicketAsync(int id)
+    {
+        var result = await _reopenTicketCase.ExecuteAsync(id);
         return result;
     }
 }
