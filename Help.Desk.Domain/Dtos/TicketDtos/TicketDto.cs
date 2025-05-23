@@ -55,15 +55,9 @@ public class TicketDto
             SubjectId = subjectId
         };
     }
-    public bool Update (string title, string description, int? priorityId, int? statusId, int? primaryTicketId, int? parentTicketId, int? assignedAgentId, int? assignedGroupId, int? typeTicketId, int? officeId, int? areaId, int? subjectId)
+    public void Update (string title, string description, int? priorityId, int? statusId, int? primaryTicketId, int? parentTicketId, int? assignedAgentId, int? assignedGroupId, int? typeTicketId, int? officeId, int? areaId, int? subjectId)
     {
-        bool hasChanged = false;
-
-        if (Title != title)
-        {
-            Title = title;
-            hasChanged = true;
-        }
+        Title = title;
         Description = description;
         Priority = (Priority)(priorityId ?? (int)Priority.Bajo); 
         Status = (Status)(statusId ?? (int)Status.Abierto);
@@ -76,7 +70,7 @@ public class TicketDto
         AreaId = areaId;
         SubjectId = subjectId;
         LastUpdate = DateTime.Now;
-        return hasChanged;
+        // Disparar algun evento
     }
 
     public void ChangePriority(Priority newPriority)
