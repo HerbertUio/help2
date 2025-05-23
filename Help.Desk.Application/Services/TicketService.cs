@@ -11,13 +11,17 @@ public class TicketService
     private readonly DeleteTicketCase _deleteTicketCase;
     private readonly GetByIdTicketCase _getByIdTicketCase;
     private readonly GetAllTicketsCase _getAllTicketsCase;
+    private readonly ChangeStatusCase _changeStatusCase;
+    private readonly ChangePriorityCase _changePriorityCase;
     
     public TicketService(
         CreateTicketCase createTicketCase,
         UpdateTicketCase updateTicketCase,
         DeleteTicketCase deleteTicketCase,
         GetByIdTicketCase getByIdTicketCase,
-        GetAllTicketsCase getAllTicketsCase
+        GetAllTicketsCase getAllTicketsCase,
+        ChangeStatusCase changeStatusCase,
+        ChangePriorityCase changePriorityCase
     )
     {
         _createTicketCase = createTicketCase;
@@ -25,6 +29,8 @@ public class TicketService
         _deleteTicketCase = deleteTicketCase;
         _getByIdTicketCase = getByIdTicketCase;
         _getAllTicketsCase = getAllTicketsCase;
+        _changeStatusCase = changeStatusCase;
+        _changePriorityCase = changePriorityCase;
     }
     public async Task<Result<TicketDto>> CreateAsync(CreateTicketDto createTicketDto)
     {
@@ -32,13 +38,13 @@ public class TicketService
         return result;
     }
     
-    /*
+    
      public async Task<Result<TicketDto>> UpdateAsync(int id, UpdateTicketDto updateTicketDto)
     {
         var result = await _updateTicketCase.ExecuteAsync(id, updateTicketDto);
         return result;
     }
-    */
+    
     
     public async Task<Result<bool>> DeleteAsync(int id)
     {
@@ -54,6 +60,16 @@ public class TicketService
     public async Task<Result<List<TicketDto>>> GetAllAsync()
     {
         var result = await _getAllTicketsCase.ExecuteAsync();
+        return result;
+    }
+    public async Task<Result<TicketDto>> ChangeStatusAsync(int id, ChangeStatusDto dto)
+    {
+        var result = await _changeStatusCase.ExecuteAsync(id, dto);
+        return result;
+    }
+    public async Task<Result<TicketDto>> ChangePriorityAsync(int id, ChangePriorityDto dto)
+    {
+        var result = await _changePriorityCase.ExecuteAsync(id, dto);
         return result;
     }
 }
