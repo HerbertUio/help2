@@ -10,18 +10,21 @@ public class TicketService
     private readonly UpdateTicketCase _updateTicketCase;
     private readonly DeleteTicketCase _deleteTicketCase;
     private readonly GetByIdTicketCase _getByIdTicketCase;
+    private readonly GetAllTicketsCase _getAllTicketsCase;
     
     public TicketService(
         CreateTicketCase createTicketCase,
         UpdateTicketCase updateTicketCase,
         DeleteTicketCase deleteTicketCase,
-        GetByIdTicketCase getByIdTicketCase
+        GetByIdTicketCase getByIdTicketCase,
+        GetAllTicketsCase getAllTicketsCase
     )
     {
         _createTicketCase = createTicketCase;
         _updateTicketCase = updateTicketCase;
         _deleteTicketCase = deleteTicketCase;
         _getByIdTicketCase = getByIdTicketCase;
+        _getAllTicketsCase = getAllTicketsCase;
     }
     public async Task<Result<TicketDto>> CreateAsync(CreateTicketDto createTicketDto)
     {
@@ -46,6 +49,11 @@ public class TicketService
     public async Task<Result<TicketDto>> GetByIdAsync(int id)
     {
         var result = await _getByIdTicketCase.ExecuteAsync(id);
+        return result;
+    }
+    public async Task<Result<List<TicketDto>>> GetAllAsync()
+    {
+        var result = await _getAllTicketsCase.ExecuteAsync();
         return result;
     }
 }

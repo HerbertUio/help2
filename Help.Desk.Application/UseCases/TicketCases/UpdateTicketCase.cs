@@ -35,13 +35,23 @@ public class UpdateTicketCase
                 "Error al actualizar ticket."
             );
         }
-        // Mapear los campos de UpdateTicketDto a Ticket
-        existingTicket.Title = updateTicketDto.Title;
-        existingTicket.Description = updateTicketDto.Description;
         
+        existingTicket.Update(
+            updateTicketDto.Title,
+            updateTicketDto.Description,
+            updateTicketDto.PriorityId,
+            updateTicketDto.StatusId,
+            updateTicketDto.PrimaryTicketId,
+            updateTicketDto.ParentTicketId,
+            updateTicketDto.AssignedAgentId,
+            updateTicketDto.AssignedGroupId,
+            updateTicketDto.TypeTicketId,
+            updateTicketDto.OfficeId,
+            updateTicketDto.AreaId,
+            updateTicketDto.SubjectId
+            );
+        var updatedTicket = await _ticketRepository.UpdateAsync(existingTicket);
         
-        
-        var updatedTicket = await _ticketRepository.UpdateAsync(ticketToUpdate);
         if (updatedTicket == null)
         {
             return Result<TicketDto>.Failure(
