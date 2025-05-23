@@ -1,5 +1,6 @@
 using Help.Desk.Application.UseCases.TicketCases;
 using Help.Desk.Domain.Dtos.TicketDtos;
+using Help.Desk.Domain.Models;
 using Help.Desk.Domain.Responses;
 
 namespace Help.Desk.Application.Services;
@@ -44,14 +45,14 @@ public class TicketService
         _closeTicketCase = closeTicketCase;
         _reopenTicketCase = reopenTicketCase;
     }
-    public async Task<Result<TicketDto>> CreateAsync(CreateTicketDto createTicketDto)
+    public async Task<Result<TicketModel>> CreateAsync(CreateTicketDto createTicketDto)
     {
         var result = await _createTicketCase.ExecuteAsync(createTicketDto);
         return result;
     }
     
     
-     public async Task<Result<TicketDto>> UpdateAsync(int id, UpdateTicketDto updateTicketDto)
+     public async Task<Result<TicketModel>> UpdateAsync(int id, UpdateTicketDto updateTicketDto)
     {
         var result = await _updateTicketCase.ExecuteAsync(id, updateTicketDto);
         return result;
@@ -64,32 +65,32 @@ public class TicketService
         return result;
     }
     
-    public async Task<Result<TicketDto>> GetByIdAsync(int id)
+    public async Task<Result<TicketModel>> GetByIdAsync(int id)
     {
         var result = await _getByIdTicketCase.ExecuteAsync(id);
         return result;
     }
-    public async Task<Result<List<TicketDto>>> GetAllAsync()
+    public async Task<Result<List<TicketModel>>> GetAllAsync()
     {
         var result = await _getAllTicketsCase.ExecuteAsync();
         return result;
     }
-    public async Task<Result<TicketDto>> ChangeStatusAsync(int id, ChangeStatusDto dto)
+    public async Task<Result<TicketModel>> ChangeStatusAsync(int id, ChangeStatusDto dto)
     {
         var result = await _changeStatusCase.ExecuteAsync(id, dto);
         return result;
     }
-    public async Task<Result<TicketDto>> ChangePriorityAsync(int id, ChangePriorityDto dto)
+    public async Task<Result<TicketModel>> ChangePriorityAsync(int id, ChangePriorityDto dto)
     {
         var result = await _changePriorityCase.ExecuteAsync(id, dto);
         return result;
     }
-    public async Task<Result<TicketDto>> MergeTicketsAsync(MergeTicketsDto dto)
+    public async Task<Result<TicketModel>> MergeTicketsAsync(MergeTicketsDto dto)
     {
         var result = await _mergeTicketsCase.ExecuteAsync(dto);
         return result;
     }
-    public async Task<Result<TicketDto>> UnmergeTicketAsync(UnmergeTicketDto dto)
+    public async Task<Result<TicketModel>> UnmergeTicketAsync(UnmergeTicketDto dto)
     {
         var result = await _unmergeTicketCase.ExecuteAsync(dto);
         return result;

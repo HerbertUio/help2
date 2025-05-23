@@ -2,6 +2,7 @@ using FluentValidation;
 using Help.Desk.Domain.Dtos.TicketDtos;
 using Help.Desk.Domain.Enums.TicketEnums;
 using Help.Desk.Domain.IRepositories;
+using Help.Desk.Domain.Models;
 using Help.Desk.Domain.Responses;
 
 namespace Help.Desk.Application.UseCases.TicketCases;
@@ -17,18 +18,18 @@ public class CreateTicketCase
         _createTicketValidator = createTicketValidator;
     }
 
-    public async Task<Result<TicketDto>> ExecuteAsync(CreateTicketDto dto)
+    public async Task<Result<TicketModel>> ExecuteAsync(CreateTicketDto dto)
     {
         var validationResult = await _createTicketValidator.ValidateAsync(dto);
         if (!validationResult.IsValid)
         {
-            return Result<TicketDto>.Failure(
+            return Result<TicketModel>.Failure(
                 validationResult.Errors.Select(e => e.ErrorMessage).ToList(),
                 "Error de validación al crear ticket."
             );
         }
 
-        var ticket = TicketDto.Create(
+        var ticket = TicketModel.Create(
             dto.RequesterId,
             dto.Title,
             dto.Description,
@@ -41,10 +42,10 @@ public class CreateTicketCase
         var createdTicket = await _ticketRepository.CreateAsync(ticket);
         if (createdTicket == null)
         {
-            return Result<TicketDto>
+            return Result<TicketModel>
                 .Failure(new List<string>(), "Error al crear ticket.");
         }
-        return Result<TicketDto>.Success(createdTicket, "Ticket creado exitosamente.");
+        return Result<TicketModel>.Success(createdTicket, "Ticket creado exitosamente.");
         
     }
     

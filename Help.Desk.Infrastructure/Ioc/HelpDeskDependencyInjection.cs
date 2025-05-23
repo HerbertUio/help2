@@ -3,6 +3,7 @@ using Help.Desk.Application.Services;
 using Help.Desk.Application.UseCases.DepartmentUseCases;
 using Help.Desk.Application.UseCases.UserUseCases;
 using Help.Desk.Application.Validators.DepartmentValidators;
+using Help.Desk.Application.Validators.TicketValidators;
 using Help.Desk.Application.Validators.UserValidators;
 using Help.Desk.Domain.Dtos.DepartmentDtos;
 using Help.Desk.Domain.IRepositories;
@@ -53,12 +54,24 @@ public static class HelpDeskDependencyInjection
     {
         collection.AddTransient<IUserRepository, UserRepository>();
         collection.AddTransient<IDepartmentRepository, DepartmentRepository>();
+        collection.AddTransient<ITicketRepository, TicketRepository>();
         return collection;
     }
     public static IServiceCollection RegisterValidators(this IServiceCollection collection)
     {
+        // User Validators
         collection.AddValidatorsFromAssemblyContaining<RegisterUserValidator>();
+        
+        // Department Validators
         collection.AddValidatorsFromAssemblyContaining<RegisterDepartmentValidator>();
+        
+        // Ticket Validators
+        collection.AddValidatorsFromAssemblyContaining<CreateTicketValidator>();
+        collection.AddValidatorsFromAssemblyContaining<UpdateTicketValidator>();
+        collection.AddValidatorsFromAssemblyContaining<ChangePriorityValidator>();
+        collection.AddValidatorsFromAssemblyContaining<ChangeStatusValidator>();
+        collection.AddValidatorsFromAssemblyContaining<MergeTicketsValidator>();
+        collection.AddValidatorsFromAssemblyContaining<UnmergeTicketValidator>();
 
         return collection;
     }

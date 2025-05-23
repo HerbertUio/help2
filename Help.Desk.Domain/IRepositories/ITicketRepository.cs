@@ -1,15 +1,16 @@
 using Help.Desk.Domain.Dtos.TicketDtos;
 using Help.Desk.Domain.IRepositories.Common;
+using Help.Desk.Domain.Models;
 
 namespace Help.Desk.Domain.IRepositories;
 
-public interface ITicketRepository: IGenericRepository<TicketDto>
+public interface ITicketRepository: IGenericRepository<TicketModel>
 {
     //TODO: VERIFICAR  LOS CASOS DE USO DE UN TICKET
-    Task<TicketDto> ChangeStatusAsync(int ticketId, int statusId);
-    Task<TicketDto> ChangePriorityAsync(int ticketId, int priorityId);
-    Task<TicketDto> MergeTicketsAsync(int ticketId, int ticketIdToMerge);
-    Task<TicketDto> UnmergeTicketsAsync(int ticketId, int ticketIdToUnmerge);
+    Task<TicketModel> ChangeStatusAsync(int ticketId, int statusId);
+    Task<TicketModel> ChangePriorityAsync(int ticketId, int priorityId);
+    Task<TicketModel> MergeTicketsAsync(int ticketId, int ticketIdToMerge);
+    Task<TicketModel> UnmergeTicketsAsync(int ticketId, int ticketIdToUnmerge);
     Task<bool> CloseTicketAsync(int ticketId);
     Task<bool> ReopenTicketAsync(int ticketId);
     
