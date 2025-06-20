@@ -211,7 +211,6 @@ public class TicketRepository: ITicketRepository
 
         return await _context.SaveChangesAsync() > 0;
     }
-
     public async Task<bool> ReopenTicketAsync(int ticketId)
     {
         var entity = await _context.Tickets.FindAsync(ticketId);

@@ -1,6 +1,7 @@
 using FluentValidation;
 using Help.Desk.Application.Services;
 using Help.Desk.Application.UseCases.DepartmentUseCases;
+using Help.Desk.Application.UseCases.TicketCases;
 using Help.Desk.Application.UseCases.UserUseCases;
 using Help.Desk.Application.Validators.DepartmentValidators;
 using Help.Desk.Application.Validators.TicketValidators;
@@ -31,6 +32,7 @@ public static class HelpDeskDependencyInjection
 
     public static IServiceCollection RegisterServices(this IServiceCollection collection)
     {
+        // USER SERVICES
         collection.AddTransient<UserService>();
         collection.AddTransient<CreateUserUseCase>();
         collection.AddTransient<UpdateUserUseCase>();
@@ -39,6 +41,7 @@ public static class HelpDeskDependencyInjection
         collection.AddTransient<GetAllUsersUseCase>();
         collection.AddTransient<GetByEmailUseCase>();
 
+        // DEPARTMENT SERVICES
         collection.AddTransient<DepartmentService>();
         collection.AddTransient<CreateDepartmentUseCase>();
         collection.AddTransient<UpdateDepartmentUseCase>();
@@ -47,6 +50,19 @@ public static class HelpDeskDependencyInjection
         collection.AddTransient<GetAllDepartmentsUseCase>();
         collection.AddTransient<GetByNameDepartmentUseCase>();
         collection.AddTransient<GetAllUsersInDepartment>();
+        
+        // TICKET SERVICES
+        collection.AddTransient<TicketService>();
+        collection.AddTransient<CreateTicketCase>();
+        collection.AddTransient<UpdateTicketCase>();
+        collection.AddTransient<DeleteTicketCase>();
+        collection.AddTransient<GetAllTicketsCase>();
+        collection.AddTransient<GetByIdTicketCase>();
+        collection.AddTransient<ChangePriorityCase>();
+        collection.AddTransient<ChangeStatusCase>();
+        collection.AddTransient<MergeTicketsCase>();
+        collection.AddTransient<UnmergeTicketCase>();
+        collection.AddTransient<ReopenTicketCase>();
         
         return collection;
     }
@@ -59,13 +75,13 @@ public static class HelpDeskDependencyInjection
     }
     public static IServiceCollection RegisterValidators(this IServiceCollection collection)
     {
-        // User Validators
+        // USER VALIDATORS
         collection.AddValidatorsFromAssemblyContaining<RegisterUserValidator>();
         
-        // Department Validators
+        // DEPARTMENT VALIDATORS
         collection.AddValidatorsFromAssemblyContaining<RegisterDepartmentValidator>();
         
-        // Ticket Validators
+        // TICKET VALIDATORS
         collection.AddValidatorsFromAssemblyContaining<CreateTicketValidator>();
         collection.AddValidatorsFromAssemblyContaining<UpdateTicketValidator>();
         collection.AddValidatorsFromAssemblyContaining<ChangePriorityValidator>();
