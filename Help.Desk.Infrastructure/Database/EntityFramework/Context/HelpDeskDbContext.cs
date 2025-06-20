@@ -8,6 +8,7 @@ public class HelpDeskDbContext: DbContext
 {
     public DbSet<UserEntity> Users { get; set; }
     public DbSet<DepartmentEntity> Departments { get; set; }
+    public DbSet<TicketEntity> Tickets { get; set; }
     
     public HelpDeskDbContext(DbContextOptions<HelpDeskDbContext> options) : base(options)
     {

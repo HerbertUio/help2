@@ -1,8 +1,8 @@
 using Help.Desk.Domain.Enums.TicketEnums;
 
-namespace Help.Desk.Domain.Dtos.TicketDtos;
+namespace Help.Desk.Domain.Models;
 
-public class TicketDto
+public class TicketModel
 {
     public int Id { get; set; }
     public string Title { get; set; } 
@@ -27,12 +27,12 @@ public class TicketDto
     public int? SubjectId { get; set; } //Asunto Relacionado con:
 
 
-    public static TicketDto Create(int? requesterId, string title, string description, int? subjectId, int? officeId,
+    public static TicketModel Create(int? requesterId, string title, string description, int? subjectId, int? officeId,
         int? areaId, int? typeTicketId)
     {
         // Antes de retornar el ticket, se podria disparar algun evento de dominio
         // deberiamos de disparar el evento que una vez creado el ticket este assigne este ticket a algun agente que este disponible
-        return new TicketDto
+        return new TicketModel()
         {
             Title = title,
             Description = description,

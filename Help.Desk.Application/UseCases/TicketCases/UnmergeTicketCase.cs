@@ -1,6 +1,7 @@
 using FluentValidation;
 using Help.Desk.Domain.Dtos.TicketDtos;
 using Help.Desk.Domain.IRepositories;
+using Help.Desk.Domain.Models;
 using Help.Desk.Domain.Responses;
 
 namespace Help.Desk.Application.UseCases.TicketCases;
@@ -15,12 +16,12 @@ public class UnmergeTicketCase
         _ticketRepository = ticketRepository;
         _unmergeTicketValidator = unmergeTicketValidator;
     }
-    public async Task<Result<TicketDto>> ExecuteAsync(UnmergeTicketDto dto)
+    public async Task<Result<TicketModel>> ExecuteAsync(UnmergeTicketDto dto)
     {
         var validationResult = await _unmergeTicketValidator.ValidateAsync(dto);
         if (!validationResult.IsValid)
         {
-            return Result<TicketDto>.Failure(
+            return Result<TicketModel>.Failure(
                 validationResult.Errors.Select(e => e.ErrorMessage).ToList(),
                 "Error de validación al desfusionar tickets."
             );
@@ -32,7 +33,7 @@ public class UnmergeTicketCase
 
         if (mainTicket == null)
         {
-            return Result<TicketDto>.Failure(
+            return Result<TicketModel>.Failure(
                 new List<string> { $"El ticket principal con ID {dto.TicketId} no fue encontrado." },
                 "Error al desfusionar tickets."
             );
@@ -40,7 +41,7 @@ public class UnmergeTicketCase
 
         if (ticketToUnmerge == null)
         {
-            return Result<TicketDto>.Failure(
+            return Result<TicketModel>.Failure(
                 new List<string> { $"El ticket a desfusionar con ID {dto.TicketToUnmergeId} no fue encontrado." },
                 "Error al desfusionar tickets."
             );
@@ -51,12 +52,12 @@ public class UnmergeTicketCase
 
         if (resultTicket == null)
         {
-            return Result<TicketDto>.Failure(
+            return Result<TicketModel>.Failure(
                 new List<string> { "No se pudo completar la operación de des-fusión. Asegúrese de que los tickets estén realmente vinculados de esta manera." },
                 "Error al desfusionar tickets."
             );
         }
 
-        return Result<TicketDto>.Success(resultTicket, "Tickets desfusionados exitosamente.");
+        return Result<TicketModel>.Success(resultTicket, "Tickets desfusionados exitosamente.");
     }
 }

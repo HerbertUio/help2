@@ -2,6 +2,7 @@ using FluentValidation;
 using Help.Desk.Domain.Dtos.TicketDtos;
 using Help.Desk.Domain.Enums.TicketEnums;
 using Help.Desk.Domain.IRepositories;
+using Help.Desk.Domain.Models;
 using Help.Desk.Domain.Responses;
 
 namespace Help.Desk.Application.UseCases.TicketCases;
@@ -15,12 +16,12 @@ public class ChangeStatusCase
         _ticketRepository = ticketRepository;
         _validator = validator;
     }
-    public async Task<Result<TicketDto>> ExecuteAsync(int id, ChangeStatusDto dto)
+    public async Task<Result<TicketModel>> ExecuteAsync(int id, ChangeStatusDto dto)
     {
         var validationResult = await _validator.ValidateAsync(dto);
         if (!validationResult.IsValid)
         {
-            return Result<TicketDto>.Failure(
+            return Result<TicketModel>.Failure(
                 validationResult.Errors.Select(e => e.ErrorMessage).ToList(),
                 "Error de validación al cambiar el estado del ticket."
             );
@@ -29,14 +30,14 @@ public class ChangeStatusCase
         var existingTicket = await _ticketRepository.GetByIdAsync(id);
         if (existingTicket == null)
         {
-            return Result<TicketDto>.Failure(
+            return Result<TicketModel>.Failure(
                 new List<string> { "No se encontró el ticket." },
                 "Error al cambiar el estado del ticket."
             );
         }
         if (!Enum.IsDefined(typeof(Status), dto.NewStatusId))
         {
-            return Result<TicketDto>.Failure(
+            return Result<TicketModel>.Failure(
                 new List<string> { $"El ID de estado '{dto.NewStatusId}' no es válido." },
                 "Error al cambiar el estado del ticket."
             );
@@ -46,11 +47,11 @@ public class ChangeStatusCase
         var updatedTicket = await _ticketRepository.UpdateAsync(existingTicket);
         if (updatedTicket == null)
         {
-            return Result<TicketDto>.Failure(
+            return Result<TicketModel>.Failure(
                 new List<string> { "Error al cambiar el estado del ticket." },
                 "Error al cambiar el estado del ticket."
             );
         }
-        return Result<TicketDto>.Success(updatedTicket, "Estado del ticket cambiado exitosamente.");
+        return Result<TicketModel>.Success(updatedTicket, "Estado del ticket cambiado exitosamente.");
     }
 }
